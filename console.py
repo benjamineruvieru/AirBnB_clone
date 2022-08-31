@@ -1,10 +1,18 @@
 #!/usr/bin/python3
 """Module containing the entry point of the command interpreter."""
 import cmd
+from models import storage
 from models.base_model import BaseModel
 from models.user import User
+from models.state import State
+from models.city import City
+from models.review import Review
+from models.amenity import Amenity
+from models.place import Place
 
-avaliable_classes = {'BaseModel': BaseModel, 'User': User}
+avaliable_classes = {'BaseModel': BaseModel, 'User': User,
+                     'Amenity': Amenity, 'City': City, 'State': State,
+                     'Place': Place, 'Review': Review}
 
 
 class HBNBCommand(cmd.Cmd):
@@ -43,6 +51,62 @@ class HBNBCommand(cmd.Cmd):
         """
         args = arg.split()
         if not check_classname(args, id=True):
+            return
+
+        instance_objs = storage.all()
+        key = "{}.{}".format(args[0], args[1])
+        req_instance = instance_objs.get(key, None)
+        if req_instance is None:
+            print("** no instance found **")
+            return
+        print(req_instance)
+
+    def do_destroy(self, arg):
+        """Deletes an instance based on the class name and id.
+        """
+        args = arg.split()
+        if not check_classname(args, id=True):
+            return
+
+        instance_objs = storage.all()
+        key = "{}.{}".format(args[0], args[1])
+        req_instance = instance_objs.get(key, None)
+        if req_instance is None:
+            print("** no instance found **")
+            return
+
+        del instance_objs[key]
+        storage.save()
+
+    def do_all(self, arg):
+        """Prints string representation of all instances.
+        """
+        args = arg.split()
+        all_objs = storage.all()
+
+        if len(args) < 1:
+            print(["{}".format(str(v)) for _, v in all_objs.items()])
+            return
+        if args[0] not in avaliable_classes.keys():
+            print("** class doesn't exist **")
+            return
+        else:
+            print(["{}".format(str(v))
+                  for _, v in all_objs.items() if type(v).__name__ == args[0]])
+            return
+
+    def do_update(self, arg: str):
+        """Updates an instance based on the class name and id.
+        """
+        args = arg.split(maxsplit=3)
+        if not check_classname(args, id=True):
+            return
+
+        instance_objs = storage.all()
+        key = "{}.{}".format(args[0], args[1])
+        req_instance = instance_objs.get(key, None)
+        if req_instance is None:
+            print("** no instance found **")
             return
 
 

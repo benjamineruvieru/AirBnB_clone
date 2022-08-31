@@ -28,7 +28,6 @@ class FileStorage:
         """Returns dictionary representation"""
         return self.__objects
 
-    @setter
     def new(self, obj):
         """sets __objects the obj with key"""
         dict_key = '{}.{}'.format(obj.__class__.__name__, obj.id)
