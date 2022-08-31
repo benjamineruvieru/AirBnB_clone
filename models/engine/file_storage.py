@@ -26,7 +26,7 @@ class FileStorage:
 
     def all(self):
         """Returns dictionary representation"""
-        return self.__objects
+        return FileStorage.__objects
 
     def new(self, obj):
         """sets __objects the obj with key"""
@@ -35,17 +35,17 @@ class FileStorage:
 
     def save(self):
         """serializes __objects to the JSON file"""
-        with open(self.__file_path, mode='w') as file:
+
+        with open(FileStorage.__file_path, mode='w') as file:
             json_format = {}
-            for key, value in self.__objects.items():
+            for key, value in FileStorage.__objects.items():
+
                 json_format[key] = value.to_dict()
             file.write(JSONEncoder().encode(json_format))
 
     def reload(self):
         """
         deserializes the JSON file to __objects only if the JSON file exists
-        """
-        """Deserializes the JSON file to objects if it exists.
         """
         if os.path.isfile(self.__file_path):
             file_lines = []

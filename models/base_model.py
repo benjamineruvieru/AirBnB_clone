@@ -27,6 +27,9 @@ class BaseModel:
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
 
+            from models import storage
+            storage.new(self)
+
     def __str__(self):
         """string representation"""
         return "[{}] ({}) \
@@ -36,6 +39,7 @@ class BaseModel:
         """Updates the public instance attribute updated_at
         with the current datetime
         """
+
         from models import storage
         self.updated_at = datetime.now()
         storage.save()

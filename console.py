@@ -98,7 +98,7 @@ class HBNBCommand(cmd.Cmd):
     def do_update(self, arg: str):
         """Updates an instance based on the class name and id.
         """
-        args = arg.split(maxsplit=3)
+        args = arg.split()
         if not check_classname(args, id=True):
             return
 
@@ -108,6 +108,7 @@ class HBNBCommand(cmd.Cmd):
         if req_instance is None:
             print("** no instance found **")
             return
+        setattr(req_instance, args[2], args[3])
 
 
 def check_classname(args, id=False):
