@@ -1,6 +1,8 @@
 #!/usr/bin/python3
 """File system engin module"""
+import os
 from json import JSONDecoder, JSONEncoder
+from importlib import import_module
 
 
 class FileStorage:
@@ -32,4 +34,18 @@ class FileStorage:
         """
         deserializes the JSON file to __objects only if the JSON file exists
         """
-        return
+        """Deserializes the JSON file to objects if it exists.
+        """
+        if os.path.isfile(self.__file_path):
+            file_lines = []
+            with open(self.__file_path, mode='r') as file:
+                file_lines = file.readlines()
+            file_txt = ''.join(file_lines) if len(file_lines) > 0 else '{}'
+            json_objs = JSONDecoder().decode(file_txt)
+            base_model_objs = dict()
+            classes = self.model_classes
+            for key, value in json_objs.items():
+                class_name = value['__class__']
+                if class_name in classes.keys():
+                    base_model_objs[key] = classes[class_name](**value)
+            self.__objects = base_model_objs
