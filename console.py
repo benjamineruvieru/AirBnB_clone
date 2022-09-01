@@ -109,6 +109,7 @@ class HBNBCommand(cmd.Cmd):
             print("** no instance found **")
             return
         setattr(req_instance, args[2], args[3])
+        req_instance.save()
 
 
 def check_classname(args, id=False):
