@@ -7,6 +7,7 @@ import os
 import unittest
 from datetime import datetime
 
+
 class TestCity(unittest.TestCase):
     """class for the City class test
     """
@@ -139,6 +140,7 @@ class TestCity(unittest.TestCase):
             City().to_dict(City())
         with self.assertRaises(TypeError):
             City().to_dict(45)
+
     def tearDown(self):
         """Deconstructs this test class.
         """
