@@ -14,6 +14,10 @@ class BaseModel:
         """
         instatiates an object with it's
         attributes
+
+        Args:
+            *args (tuple): Ignored.
+            kwargs: A dictionary of attribute keys-value pairs.
         """
         if len(kwargs) > 0:
             for key, value in kwargs.items():
@@ -31,22 +35,31 @@ class BaseModel:
             storage.new(self)
 
     def __str__(self):
-        """string representation"""
-        return "[{}] ({}) \
-{}".format(self.__class__.__name__, self.id, self.__dict__)
+        """string representation
+
+        Returns: A string representation
+        """
+        return "[{}] ({}) {}".format(
+            self.__class__.__name__,
+            self.id,
+            self.__dict__
+        )
 
     def save(self):
-        """Updates the public instance attribute updated_at
+        """
+        Updates the public instance attribute updated_at
         with the current datetime
         """
-
         from models import storage
         self.updated_at = datetime.now()
         storage.save()
 
     def to_dict(self):
-        """Returns a dictionary containing all keys/values of __dict__
+        """
+        Returns a dictionary containing all keys/values of __dict__
         of the instance
+
+        Returns: Dict of attributes
         """
         result = {}
         for key, value in self.__dict__.items():
