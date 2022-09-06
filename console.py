@@ -245,6 +245,7 @@ class HBNBCommand(cmd.Cmd):
         else:
             print("** class doesn't exist **")
 
+
 def check_classname(args, id=False):
     """Runs checks on args to validate classname entry.
     """
