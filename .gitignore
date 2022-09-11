@@ -6,6 +6,9 @@ __pycache__/
 # emacs
 *~
 
+# validator
+w3c_validator.py
+
 # C extensions
 *.so
 
